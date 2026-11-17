@@ -5,6 +5,8 @@
     node tegn.js T           tegner T (springes over, hvis filen findes)
     node tegn.js mangler     tegner alle, der mangler
     node tegn.js T --igen    tegner T forfra, selv om filen findes
+    node tegn.js alle --rens renser de rå tegninger igen (ingen ny tegning,
+                             koster ikke noget hos OpenAI)
 
   Brachiosaurus-tegningen sendes med som stilforlæg, så alle tegninger
   ligner hinanden. Hvad der skal tegnes, står i feltet "tegning" i
@@ -30,13 +32,14 @@ Rules: pure black lines on a pure white background. No gray, no shading, no hatc
 
 const args = process.argv.slice(2);
 const igen = args.includes("--igen");
+const rens = args.includes("--rens");
 const hvad = args.find((a) => !a.startsWith("--"));
 if (!hvad) {
   console.error("Brug: node tegn.js <bogstav|mangler> [--igen]");
   process.exit(1);
 }
 const nøgle = process.env.OPENAI_API_KEY;
-if (!nøgle) {
+if (!nøgle && !rens) {
   console.error("OPENAI_API_KEY mangler.");
   process.exit(1);
 }
@@ -44,8 +47,12 @@ if (!nøgle) {
 const alle = JSON.parse(fs.readFileSync(path.join(ROD, "data/bogstaver.json"), "utf8"));
 let poster = hvad.toLowerCase() === "mangler"
   ? alle.filter((p) => !fs.existsSync(path.join(ROD, p.billede)))
+  : hvad.toLowerCase() === "alle"
+  ? alle
   : alle.filter((p) => p.bogstav.toLocaleUpperCase("da") === hvad.toLocaleUpperCase("da"));
-if (!igen) poster = poster.filter((p) => !fs.existsSync(path.join(ROD, p.billede)));
+const raaFil = (p) => path.join(ROD, "billeder/raa", path.basename(p.billede));
+if (rens) poster = poster.filter((p) => fs.existsSync(raaFil(p)));
+else if (!igen) poster = poster.filter((p) => !fs.existsSync(path.join(ROD, p.billede)));
 
 async function tegn(post) {
   if (!post.tegning) throw new Error(`${post.bogstav}: feltet "tegning" mangler i datafilen`);
@@ -65,28 +72,36 @@ async function tegn(post) {
   return Buffer.from(json.data[0].b64_json, "base64");
 }
 
-// Gør tegningen til ren sort/hvid i fuld opløsning — samme tærskel som arket bruger.
+/*
+  Gør tegningen til ren sort/hvid. Den forstørres først to gange med
+  udglatning, så stregerne bliver hele og glatte i stedet for hakkede,
+  og alt, der er mere mørkt end lyst (tærskel 200 af 255), bliver sort.
+  Ellers forsvinder de tynde grå kanter, og stregerne ser utydelige ud.
+*/
+const FORSTOR = 2, TAERSKEL = 200;
 async function sortHvid(side, png) {
-  const ud = await side.evaluate(async (src) => {
+  const ud = await side.evaluate(async ([src, f, t]) => {
     const img = new Image();
     img.src = src;
     await img.decode();
     const c = document.createElement("canvas");
-    c.width = img.naturalWidth;
-    c.height = img.naturalHeight;
+    c.width = img.naturalWidth * f;
+    c.height = img.naturalHeight * f;
     const ctx = c.getContext("2d");
     ctx.fillStyle = "#fff";
     ctx.fillRect(0, 0, c.width, c.height);
-    ctx.drawImage(img, 0, 0);
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = "high";
+    ctx.drawImage(img, 0, 0, c.width, c.height);
     const d = ctx.getImageData(0, 0, c.width, c.height);
     for (let i = 0; i < d.data.length; i += 4) {
-      const v = 0.299 * d.data[i] + 0.587 * d.data[i + 1] + 0.114 * d.data[i + 2] < 150 ? 0 : 255;
+      const v = 0.299 * d.data[i] + 0.587 * d.data[i + 1] + 0.114 * d.data[i + 2] < t ? 0 : 255;
       d.data[i] = d.data[i + 1] = d.data[i + 2] = v;
       d.data[i + 3] = 255;
     }
     ctx.putImageData(d, 0, 0);
     return c.toDataURL("image/png");
-  }, "data:image/png;base64," + png.toString("base64"));
+  }, ["data:image/png;base64," + png.toString("base64"), FORSTOR, TAERSKEL]);
   return Buffer.from(ud.split(",")[1], "base64");
 }
 
@@ -102,8 +117,8 @@ async function sortHvid(side, png) {
   for (const post of poster) {
     process.stdout.write(`${post.bogstav} ${post.dyr} ... `);
     try {
-      const raa = await tegn(post);
-      fs.writeFileSync(path.join(ROD, "billeder/raa", path.basename(post.billede)), raa);
+      const raa = rens ? fs.readFileSync(raaFil(post)) : await tegn(post);
+      if (!rens) fs.writeFileSync(raaFil(post), raa);
       fs.writeFileSync(path.join(ROD, post.billede), await sortHvid(side, raa));
       console.log("færdig");
     } catch (e) {

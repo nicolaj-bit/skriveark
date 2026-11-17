@@ -336,7 +336,7 @@
     "beskrivelse": "Stegosaurus havde store plader på ryggen og fire lange pigge på halen. Dens hjerne var meget lille i forhold til kroppen.",
     "spoergsmaal": "Hvor mange pigge havde Stegosaurus på halen?",
     "billede": "billeder/stegosaurus.png",
-    "tegning": "store, opretstående plader i to rækker langs ryggen, fire lange pigge på halen, lille hoved",
+    "tegning": "store, opretstående plader i to rækker langs ryggen, lille hoved. Halen ses tydeligt fra siden med PRÆCIS FIRE lange pigge for enden — alle fire skal kunne ses og tælles hver for sig (EXACTLY FOUR separate tail spikes, all four clearly visible)",
     "pile": {
       "stort": [
         { "nr": 1, "nummer": [0.72, 0.86], "vej": [[0.64, 0.91], [0.45, 0.93], [0.27, 0.87], [0.19, 0.72], [0.26, 0.57], [0.45, 0.49], [0.63, 0.4], [0.68, 0.24], [0.6, 0.1], [0.4, 0.06], [0.2, 0.1]] }
