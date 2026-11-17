@@ -5,7 +5,7 @@
     "beskrivelse": "Ankylosaurus havde tykke knogleplader på ryggen som et skjold. For enden af halen sad en stor kølle af knogler. Den spiste planter.",
     "spoergsmaal": "Hvilke andre dyr har et skjold eller en skal?",
     "billede": "billeder/ankylosaurus.png",
-    "tegning": "lav og bred, tykke knogleplader og små pigge på ryggen, stor knoglekølle for enden af halen",
+    "tegning": "lav og bred, tykke knogleplader og små pigge på ryggen, stor knoglekølle for enden af halen. Står på PRÆCIS FIRE korte, kraftige ben set fra siden: ét forben og ét bagben tæt på os, og ét forben og ét bagben længere væk, delvist skjult bag kroppen (EXACTLY FOUR legs, four feet on the ground, never five)",
     "pile": {
       "stort": [
         { "nr": 1, "nummer": [0.44, 0.86], "vej": [[0.42, 0.78], [0.15, 0.1]] },
@@ -336,7 +336,7 @@
     "beskrivelse": "Stegosaurus havde store plader på ryggen og fire lange pigge på halen. Dens hjerne var meget lille i forhold til kroppen.",
     "spoergsmaal": "Hvor mange pigge havde Stegosaurus på halen?",
     "billede": "billeder/stegosaurus.png",
-    "tegning": "store, opretstående plader i to rækker langs ryggen, lille hoved. Halen ses tydeligt fra siden med PRÆCIS FIRE lange pigge for enden — alle fire skal kunne ses og tælles hver for sig (EXACTLY FOUR separate tail spikes, all four clearly visible)",
+    "tegning": "store, opretstående plader i to rækker langs ryggen, lille hoved. Halen ses tydeligt fra siden med PRÆCIS FIRE lange pigge for enden, der alle peger skråt opad og bagud — alle fire skal kunne ses og tælles hver for sig (EXACTLY FOUR tail spikes, all pointing up and back, four separate tips). Står på PRÆCIS FIRE ben set fra siden: ét forben og ét bagben tæt på os, og ét forben og ét bagben længere væk, delvist skjult bag kroppen (EXACTLY FOUR legs, four feet on the ground, never five)",
     "pile": {
       "stort": [
         { "nr": 1, "nummer": [0.72, 0.86], "vej": [[0.64, 0.91], [0.45, 0.93], [0.27, 0.87], [0.19, 0.72], [0.26, 0.57], [0.45, 0.49], [0.63, 0.4], [0.68, 0.24], [0.6, 0.1], [0.4, 0.06], [0.2, 0.1]] }
@@ -405,7 +405,7 @@
     "beskrivelse": "Wuerhosaurus levede i Kina og var i familie med Stegosaurus. Den havde lave plader på ryggen og pigge på halen. Den spiste planter.",
     "spoergsmaal": "Hvad er forskellen på en plade og en pig?",
     "billede": "billeder/wuerhosaurus.png",
-    "tegning": "stegosaur med lave, afrundede plader på ryggen og pigge på halen",
+    "tegning": "stegosaur med lave, afrundede plader på ryggen og pigge på halen. Står på PRÆCIS FIRE ben set fra siden: ét forben og ét bagben tæt på os, og ét forben og ét bagben længere væk, delvist skjult bag kroppen (EXACTLY FOUR legs, four feet on the ground, never five)",
     "pile": {
       "stort": [
         { "nr": 1, "nummer": [0.13, 0.9], "vej": [[0.16, 0.8], [0.36, 0.27]] },
