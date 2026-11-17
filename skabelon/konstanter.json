@@ -4,11 +4,11 @@
   "linjeafstand": 13,
   "_linjeafstand": "Afstanden fra toplinjen ned til grundlinjen.",
 
-  "midterlinje": 0.64,
-  "_midterlinje": "Hvor højt over grundlinjen den stiplede midterlinje sidder, som andel af linjeafstanden. Sporingsbogstavernes størrelse regnes ud fra den, så de små bogstaver når præcis op til midterlinjen.",
+  "midterlinje": 0.5,
+  "_midterlinje": "Hvor højt over grundlinjen den stiplede midterlinje sidder, som andel af linjeafstanden. 0,5 = præcis midt imellem. De små bogstavers størrelse regnes ud fra den, så de når præcis op til midterlinjen.",
 
-  "underlaengde": 0.36,
-  "_underlaengde": "Plads under grundlinjen til g, j, p og y, som andel af linjeafstanden.",
+  "underlaengde": 0.5,
+  "_underlaengde": "Afstanden fra en grundlinje ned til næste sæts toplinje, som andel af linjeafstanden. Den giver plads til g, j, p og y. Står både midterlinje og underlaengde på 0,5, ligger alle linjer på arket lige langt fra hinanden.",
 
   "stregtykkelse": 0.3,
   "_stregtykkelse": "Tykkelsen på alle hjælpelinjer.",

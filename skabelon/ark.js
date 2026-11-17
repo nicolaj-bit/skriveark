@@ -39,6 +39,7 @@ async function maalSkrifttype() {
     METRIK[v] = {
       xHoejde: c.measureText("x").actualBoundingBoxAscent / 1000,
       versalHoejde: c.measureText("H").actualBoundingBoxAscent / 1000,
+      opHoejde: c.measureText("d").actualBoundingBoxAscent / 1000,
       bredde: (t) => c.measureText(t).width / 1000,
       // Bogstavets sorte del (blæk) i forhold til startpunktet, pr. skriftstørrelse 1.
       blaek: (t) => {
@@ -57,16 +58,19 @@ async function maalSkrifttype() {
 /*
   Skriftstørrelse, afledt af konstanterne og skrifttypens egne mål:
   - store bogstaver: så de går præcis fra grundlinjen op til toplinjen
-  - små bogstaver: så x-højden lander præcis på midterlinjen
-  Skrifttypens store bogstaver er lavere end b, d og l, så de to kan
-  ikke dele én størrelse, hvis begge skal ramme linjerne.
+  - små bogstaver på skrivelinjerne: så x-højden lander præcis på
+    midterlinjen (b, d og l når derfor ikke helt op til toplinjen —
+    skrifttypens proportioner passer ikke til en midterlinje på midten)
+  - små bogstaver i det store sporingsfelt (`stor`): så b, d og l går fra
+    grundlinjen op til toplinjen ligesom de store. Der er ingen linjer dér.
 */
 function erStort(tegn) {
   return tegn !== tegn.toLocaleLowerCase("da");
 }
-function skriftstoerrelse(L, k, tegn, vaegt = 400) {
+function skriftstoerrelse(L, k, tegn, vaegt = 400, stor = false) {
   const m = METRIK[vaegt];
-  return erStort(tegn) ? L / m.versalHoejde : (k.midterlinje * L) / m.xHoejde;
+  if (erStort(tegn)) return L / m.versalHoejde;
+  return stor ? L / m.opHoejde : (k.midterlinje * L) / m.xHoejde;
 }
 
 /* ---------- Hjælpelinjer: ÉN funktion til alle skrivefelter ---------- */
@@ -74,12 +78,16 @@ function skriftstoerrelse(L, k, tegn, vaegt = 400) {
 /*
   Linjernes lodrette placering i et felt med linjeafstand L. Alle sæt
   skrivelinjer — til både store og små bogstaver — kommer herfra.
+  Feltets højde er præcis (1 + underlaengde) · L, så når felterne stables
+  uden mellemrum, er der underlaengde · L fra en grundlinje ned til næste
+  toplinje. Med midterlinje = underlaengde = 0,5 er alle linjer på arket
+  derfor lige langt fra hinanden.
 */
 function linjeplacering(L, k) {
-  const top = k.stregtykkelse;
+  const top = k.stregtykkelse / 2;
   const grund = top + L;
   const midt = grund - k.midterlinje * L;
-  const hoejde = grund + k.underlaengde * L;
+  const hoejde = (1 + k.underlaengde) * L;
   return { top, midt, grund, hoejde };
 }
 
@@ -206,7 +214,7 @@ function sporingsbogstaver(bredde, hoejde, post, k, valg) {
   // langt ned (g, j, p, q, y), skaleres begge ned, så de passer i feltet.
   // Pilene følger med, fordi deres koordinater er i linjeafstande.
   const maal = (L) => [stort, lille].map((t) => {
-    const fs = skriftstoerrelse(L, k, t, 700);
+    const fs = skriftstoerrelse(L, k, t, 700, true);
     const b = METRIK[700].blaek(t);
     return { tegn: t, fs, v: b.venstre * fs, h: b.hoejre * fs, op: b.op * fs, ned: b.ned * fs };
   });
@@ -505,12 +513,16 @@ function kontroller() {
     // 4. Alle sæt skrivelinjer skal være præcis ens ...
     const felter = [...ark.querySelectorAll("svg.felt")].map((s) => s.dataset.linjer);
     if (new Set(felter).size !== 1) fejl.push(`${B}: skrivelinjerne er ikke ens: ${felter.join(" | ")}`);
-    // ... og have samme afstand imellem sig i begge grupper.
-    const afstande = [...ark.querySelectorAll(".gruppe")].flatMap((g) => {
-      const top = [...g.querySelectorAll("svg.felt")].map((s) => s.getBoundingClientRect().top / PX_PR_MM);
-      return top.slice(1).map((t, n) => (t - top[n]).toFixed(2));
-    });
-    if (new Set(afstande).size > 1) fejl.push(`${B}: afstanden mellem linjesættene er ikke ens: ${afstande.join(", ")}`);
+    // ... og ALLE linjer i skrivefeltet skal ligge lige langt fra hinanden,
+    // også fra en grundlinje ned til næste sæts toplinje.
+    const linjer = [...ark.querySelectorAll("svg.felt")].flatMap((s) => {
+      const top = s.getBoundingClientRect().top / PX_PR_MM;
+      return s.dataset.linjer.split(",").slice(0, 3).map((y) => top + parseFloat(y));
+    }).sort((a, b) => a - b);
+    const afst = linjer.slice(1).map((y, n) => y - linjer[n]);
+    if (Math.max(...afst) - Math.min(...afst) > 0.05) {
+      fejl.push(`${B}: linjerne ligger ikke lige langt fra hinanden: ${afst.map((a) => a.toFixed(2)).join(", ")} mm`);
+    }
 
     // 5. Tekst mindst 14 pt.
     for (const e of ark.querySelectorAll("p")) {

@@ -150,7 +150,7 @@ body {
   padding-left: 6mm;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;   /* ingen ekstra luft mellem store og små */
 }
 .skrivning .gruppe { display: flex; flex-direction: column; }
 
