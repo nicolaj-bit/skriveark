@@ -52,6 +52,16 @@ Overskrifter: Merriweather. Licens: `skrifttype/OFL-merriweather.txt`.
 
 ## Tegningerne
 
+Tegningerne laves med OpenAIs billed-AI, med Brachiosaurus som stilforlæg:
+
+```bash
+OPENAI_API_KEY=... node tegn.js mangler   # alle, der mangler
+OPENAI_API_KEY=... node tegn.js T --igen  # tegn T forfra
+```
+
+Hvad der skal tegnes, står i feltet `tegning` i datafilen. Den rå tegning
+gemmes i `billeder/raa/`, den rensede sort/hvide i `billeder/`.
+
 Tegningen skal være realistisk, men med åbne flader, så den er sjov at
 farvelægge. Hold øverste højre hjørne af billedet tomt — dér står dyrets
 navn. `billeder/brachiosaurus.png` er klippet ud af Saras forlæg.

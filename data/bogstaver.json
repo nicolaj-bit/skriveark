@@ -5,6 +5,7 @@
     "beskrivelse": "Ankylosaurus havde tykke knogleplader på ryggen som et skjold. For enden af halen sad en stor kølle af knogler. Den spiste planter.",
     "spoergsmaal": "Hvilke andre dyr har et skjold eller en skal?",
     "billede": "billeder/ankylosaurus.png",
+    "tegning": "lav og bred, tykke knogleplader og små pigge på ryggen, stor knoglekølle for enden af halen",
     "pile": {
       "stort": [
         { "nr": 1, "nummer": [0.44, 0.86], "vej": [[0.42, 0.78], [0.15, 0.1]] },
@@ -23,6 +24,7 @@
     "beskrivelse": "Brachiosaurus var en meget stor dinosaur med en lang hals. Den kunne nå højt op i træerne og spise blade, som andre dinosaurer ikke kunne nå.",
     "spoergsmaal": "Kender du andre dyr med en lang hals?",
     "billede": "billeder/brachiosaurus.png",
+    "tegning": "meget lang hals der rækker højt op, står på fire ben, træer i landskabet",
     "pile": {
       "stort": [
         { "nr": 1, "nummer": [0.2, 0.93], "vej": [[0.2, 0.84], [0.2, 0.13]] },
@@ -41,6 +43,7 @@
     "beskrivelse": "Carnotaurus var et rovdyr med to små horn over øjnene. Dens arme var meget korte, men den kunne løbe hurtigt på sine lange ben.",
     "spoergsmaal": "Hvorfor tror du, Carnotaurus havde så korte arme?",
     "billede": "billeder/carnotaurus.png",
+    "tegning": "tobenet rovdyr, to korte tykke horn over øjnene, meget korte arme, lange stærke ben",
     "pile": {
       "stort": [
         { "nr": 1, "nummer": [0.8, 0.86], "vej": [[0.72, 0.91], [0.53, 0.93], [0.32, 0.86], [0.18, 0.68], [0.155, 0.5], [0.18, 0.3], [0.32, 0.13], [0.53, 0.065], [0.75, 0.11]] }
@@ -56,6 +59,7 @@
     "beskrivelse": "Diplodocus var en af de længste dinosaurer. Den havde en lang hals og en endnu længere hale, der var tynd som en pisk.",
     "spoergsmaal": "Hvad er det længste dyr, du kender?",
     "billede": "billeder/diplodocus.png",
+    "tegning": "meget lang hals og endnu længere, tynd piskehale, holder hovedet lavt og strakt frem",
     "pile": {
       "stort": [
         { "nr": 1, "nummer": [0.2, 0.86], "vej": [[0.2, 0.78], [0.2, 0.12]] },
@@ -73,6 +77,7 @@
     "beskrivelse": "Edmontosaurus havde en flad mund som en and. Inde i munden havde den hundredvis af tænder, som den knuste planter med.",
     "spoergsmaal": "Hvilke dyr lever i flokke i dag?",
     "billede": "billeder/edmontosaurus.png",
+    "tegning": "stor andenæbs-dinosaur med flad, bred mund, står på fire ben, lille flok i baggrunden",
     "pile": {
       "stort": [
         { "nr": 1, "nummer": [0.2, 0.85], "vej": [[0.2, 0.77], [0.2, 0.12]] },
@@ -91,6 +96,7 @@
     "beskrivelse": "Fruitadens var en af de mindste dinosaurer. Den var ikke meget længere end en kat og løb hurtigt på to ben. Den spiste planter og små dyr.",
     "spoergsmaal": "Hvad er det mindste dyr, du kender?",
     "billede": "billeder/fruitadens.png",
+    "tegning": "meget lille, slank tobenet dinosaur på størrelse med en kat, lang hale, en sten eller bregne ved siden af viser hvor lille den er",
     "pile": {
       "stort": [
         { "nr": 1, "nummer": [0.2, 0.85], "vej": [[0.2, 0.77], [0.2, 0.1]] },
@@ -109,6 +115,7 @@
     "beskrivelse": "Gallimimus lignede en stor struds. Den havde et lille hoved med et næb uden tænder og lange ben, så den kunne løbe meget hurtigt.",
     "spoergsmaal": "Hvilket dyr tror du, der kan løbe hurtigst?",
     "billede": "billeder/gallimimus.png",
+    "tegning": "ligner en struds, langt slankt hals, lille hoved med næb uden tænder, meget lange ben i løb",
     "pile": {
       "stort": [
         { "nr": 1, "nummer": [0.8, 0.84], "vej": [[0.72, 0.9], [0.55, 0.93], [0.33, 0.86], [0.18, 0.68], [0.15, 0.48], [0.2, 0.27], [0.36, 0.1], [0.55, 0.065], [0.72, 0.1], [0.82, 0.2], [0.82, 0.32]] },
@@ -126,6 +133,7 @@
     "beskrivelse": "Herrerasaurus var en af de allerførste dinosaurer. Den levede for over 200 millioner år siden og jagede andre dyr på sine to stærke ben.",
     "spoergsmaal": "Hvad tror du, Herrerasaurus spiste?",
     "billede": "billeder/herrerasaurus.png",
+    "tegning": "tidlig, slank tobenet rovdinosaur, lange bagben, korte arme med kløer",
     "pile": {
       "stort": [
         { "nr": 1, "nummer": [0.2, 0.88], "vej": [[0.2, 0.8], [0.2, 0.1]] },
@@ -144,6 +152,7 @@
     "beskrivelse": "Iguanodon havde en spids pig på tommelfingeren. Den kunne gå både på to og på fire ben, og den spiste planter.",
     "spoergsmaal": "Hvad tror du, Iguanodon brugte sin pig til?",
     "billede": "billeder/iguanodon.png",
+    "tegning": "stor planteæder der står på fire ben, tydelig spids pig på tommelfingeren",
     "pile": {
       "stort": [
         { "nr": 1, "nummer": [0.355, 0.82], "vej": [[0.355, 0.74], [0.355, 0.14]] },
@@ -162,6 +171,7 @@
     "beskrivelse": "Juravenator var en lille rovdinosaur fra Tyskland. Den var under en meter lang og fangede nok fisk, firben og insekter.",
     "spoergsmaal": "Hvilke dyr spiser fisk i dag?",
     "billede": "billeder/juravenator.png",
+    "tegning": "lille, slank rovdinosaur ved en strandkant eller sø, lang hale, ser efter fisk",
     "pile": {
       "stort": [
         { "nr": 1, "nummer": [0.475, 0.88], "vej": [[0.475, 0.8], [0.475, 0.3], [0.42, 0.12], [0.27, 0.07], [0.1, 0.15]] }
@@ -178,6 +188,7 @@
     "beskrivelse": "Kentrosaurus var i familie med Stegosaurus. Den havde plader på ryggen og lange, spidse pigge på halen og skuldrene.",
     "spoergsmaal": "Hvorfor tror du, Kentrosaurus havde pigge?",
     "billede": "billeder/kentrosaurus.png",
+    "tegning": "stegosaur med smalle plader foran på ryggen og lange spidse pigge på halen og skuldrene",
     "pile": {
       "stort": [
         { "nr": 1, "nummer": [0.205, 0.88], "vej": [[0.205, 0.8], [0.205, 0.1]] },
@@ -197,6 +208,7 @@
     "beskrivelse": "Lambeosaurus havde en stor kam på hovedet, som var hul indeni. Måske brugte den kammen til at kalde på de andre i flokken.",
     "spoergsmaal": "Hvordan kalder du på dine venner?",
     "billede": "billeder/lambeosaurus.png",
+    "tegning": "andenæbs-dinosaur med stor, hul kam på hovedet formet som en økse",
     "pile": {
       "stort": [
         { "nr": 1, "nummer": [0.205, 0.88], "vej": [[0.205, 0.8], [0.205, 0.12]] },
@@ -213,6 +225,7 @@
     "beskrivelse": "Maiasaura betyder »god mor-øgle«. Den byggede reder og passede på sine unger, til de var store nok til at klare sig selv.",
     "spoergsmaal": "Hvilke dyr passer på deres unger?",
     "billede": "billeder/maiasaura.png",
+    "tegning": "andenæbs-dinosaur der står ved en rede af jord med æg og to små unger",
     "pile": {
       "stort": [
         { "nr": 1, "nummer": [0.22, 0.78], "vej": [[0.22, 0.7], [0.2, 0.1]] },
@@ -233,6 +246,7 @@
     "beskrivelse": "Nigersaurus havde en bred mund med hundredvis af små tænder. Den holdt hovedet tæt ved jorden og spiste planter som en plæneklipper.",
     "spoergsmaal": "Hvilke dyr spiser græs i dag?",
     "billede": "billeder/nigersaurus.png",
+    "tegning": "mellemstor langhals der holder hovedet helt nede ved jorden, meget bred, firkantet mund, spiser lave planter",
     "pile": {
       "stort": [
         { "nr": 1, "nummer": [0.195, 0.88], "vej": [[0.195, 0.8], [0.195, 0.1]] },
@@ -251,6 +265,7 @@
     "beskrivelse": "Oviraptor havde fjer og et kraftigt næb uden tænder. Man har fundet den liggende på en rede med æg, ligesom en fugl.",
     "spoergsmaal": "Hvilke dyr lægger æg?",
     "billede": "billeder/oviraptor.png",
+    "tegning": "fjerklædt, tobenet dinosaur med kort, kraftigt næb uden tænder, ligger på en rede med æg ligesom en fugl",
     "pile": {
       "stort": [
         { "nr": 1, "nummer": [0.5, 0.93], "vej": [[0.42, 0.92], [0.24, 0.82], [0.155, 0.5], [0.24, 0.17], [0.5, 0.06], [0.76, 0.17], [0.845, 0.5], [0.76, 0.82], [0.6, 0.92]] }
@@ -266,6 +281,7 @@
     "beskrivelse": "Parasaurolophus havde en lang, hul kam bag på hovedet. Når den pustede gennem kammen, kunne den lave en dyb lyd som et horn.",
     "spoergsmaal": "Hvilken lyd tror du, Parasaurolophus lavede?",
     "billede": "billeder/parasaurolophus.png",
+    "tegning": "andenæbs-dinosaur med en lang, buet kam der stikker bagud fra hovedet",
     "pile": {
       "stort": [
         { "nr": 1, "nummer": [0.205, 0.86], "vej": [[0.205, 0.78], [0.205, 0.1]] },
@@ -283,6 +299,7 @@
     "beskrivelse": "Qianzhousaurus var i familie med Tyrannosaurus, men havde en lang, smal snude. Derfor kaldes den også »Pinocchio-rex«.",
     "spoergsmaal": "Kender du andre med en lang næse?",
     "billede": "billeder/qianzhousaurus.png",
+    "tegning": "slank tyrannosaur med en usædvanligt lang, smal snude",
     "pile": {
       "stort": [
         { "nr": 1, "nummer": [0.5, 0.93], "vej": [[0.42, 0.92], [0.24, 0.82], [0.155, 0.5], [0.24, 0.17], [0.5, 0.065], [0.76, 0.17], [0.845, 0.5], [0.76, 0.82], [0.6, 0.92]] },
@@ -300,6 +317,7 @@
     "beskrivelse": "Rajasaurus levede i Indien. Den var et stort rovdyr med en lille knold på hovedet som en krone. Navnet betyder »konge-øgle«.",
     "spoergsmaal": "Hvad ville du hedde, hvis du var en dinosaur?",
     "billede": "billeder/rajasaurus.png",
+    "tegning": "stort tobenet rovdyr med en lille, rund knold midt på hovedet, korte arme",
     "pile": {
       "stort": [
         { "nr": 1, "nummer": [0.2, 0.86], "vej": [[0.2, 0.78], [0.2, 0.1]] },
@@ -318,6 +336,7 @@
     "beskrivelse": "Stegosaurus havde store plader på ryggen og fire lange pigge på halen. Dens hjerne var meget lille i forhold til kroppen.",
     "spoergsmaal": "Hvor mange pigge havde Stegosaurus på halen?",
     "billede": "billeder/stegosaurus.png",
+    "tegning": "store, opretstående plader i to rækker langs ryggen, fire lange pigge på halen, lille hoved",
     "pile": {
       "stort": [
         { "nr": 1, "nummer": [0.72, 0.86], "vej": [[0.64, 0.91], [0.45, 0.93], [0.27, 0.87], [0.19, 0.72], [0.26, 0.57], [0.45, 0.49], [0.63, 0.4], [0.68, 0.24], [0.6, 0.1], [0.4, 0.06], [0.2, 0.1]] }
@@ -333,6 +352,7 @@
     "beskrivelse": "Tyrannosaurus rex var et af de største rovdyr, der har levet på land. Den havde et kæmpe hoved med store tænder, men meget små arme.",
     "spoergsmaal": "Hvad kunne T. rex mon bruge sine små arme til?",
     "billede": "billeder/tyrannosaurus.png",
+    "tegning": "Tyrannosaurus rex, kæmpe hoved med store tænder, meget små arme, kraftige bagben",
     "pile": {
       "stort": [
         { "nr": 1, "nummer": [0.07, 0.915], "vej": [[0.14, 0.915], [0.8, 0.915]] },
@@ -350,6 +370,7 @@
     "beskrivelse": "Utahraptor var den største af raptorerne. Den havde fjer og en stor, krum klo på hver fod, som den brugte, når den jagede.",
     "spoergsmaal": "Hvilke dyr har kløer i dag?",
     "billede": "billeder/utahraptor.png",
+    "tegning": "stor fjerklædt raptor, stor krum klo på hver fod, lang stiv hale",
     "pile": {
       "stort": [
         { "nr": 1, "nummer": [0.21, 0.88], "vej": [[0.21, 0.8], [0.21, 0.35], [0.27, 0.15], [0.5, 0.06], [0.73, 0.15], [0.795, 0.35], [0.795, 0.9]] }
@@ -366,6 +387,7 @@
     "beskrivelse": "Velociraptor var ikke større end en kalkun. Den havde fjer og en krum klo på hver fod, og den var en hurtig jæger.",
     "spoergsmaal": "Hvilken fugl minder Velociraptor dig om?",
     "billede": "billeder/velociraptor.png",
+    "tegning": "lille fjerklædt raptor på størrelse med en kalkun, krum klo på foden, i løb",
     "pile": {
       "stort": [
         { "nr": 1, "nummer": [0.14, 0.88], "vej": [[0.17, 0.8], [0.41, 0.26]] },
@@ -383,6 +405,7 @@
     "beskrivelse": "Wuerhosaurus levede i Kina og var i familie med Stegosaurus. Den havde lave plader på ryggen og pigge på halen. Den spiste planter.",
     "spoergsmaal": "Hvad er forskellen på en plade og en pig?",
     "billede": "billeder/wuerhosaurus.png",
+    "tegning": "stegosaur med lave, afrundede plader på ryggen og pigge på halen",
     "pile": {
       "stort": [
         { "nr": 1, "nummer": [0.13, 0.9], "vej": [[0.16, 0.8], [0.36, 0.27]] },
@@ -404,6 +427,7 @@
     "beskrivelse": "Xenoceratops havde et stort skjold bag hovedet med lange horn på. Navnet betyder »fremmed horn-ansigt«. Den spiste planter.",
     "spoergsmaal": "Hvor mange horn kan du tælle på tegningen?",
     "billede": "billeder/xenoceratops.png",
+    "tegning": "hornansigt-dinosaur med stort nakkeskjold, lange horn på skjoldets kant, næb",
     "pile": {
       "stort": [
         { "nr": 1, "nummer": [0.15, 0.88], "vej": [[0.2, 0.8], [0.75, 0.1]] },
@@ -421,6 +445,7 @@
     "beskrivelse": "Yutyrannus var i familie med Tyrannosaurus. Den var dækket af lange, bløde fjer, som måske holdt den varm om vinteren.",
     "spoergsmaal": "Hvilke dyr har fjer i dag?",
     "billede": "billeder/yutyrannus.png",
+    "tegning": "stor tyrannosaur dækket af lange, bløde fjer, gerne i et landskab med lidt sne",
     "pile": {
       "stort": [
         { "nr": 1, "nummer": [0.13, 0.88], "vej": [[0.17, 0.8], [0.42, 0.5]] },
@@ -438,6 +463,7 @@
     "beskrivelse": "Zuniceratops var i familie med Triceratops. Den havde to lange horn over øjnene og et skjold bag hovedet. Den spiste planter med sit næb.",
     "spoergsmaal": "Hvilke dyr har horn i dag?",
     "billede": "billeder/zuniceratops.png",
+    "tegning": "hornansigt-dinosaur med to lange horn over øjnene, nakkeskjold, intet næsehorn",
     "pile": {
       "stort": [
         { "nr": 1, "nummer": [0.08, 0.91], "vej": [[0.15, 0.91], [0.68, 0.91]] },
