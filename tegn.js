@@ -28,6 +28,7 @@ const STIL = `Use the attached image ONLY as a style reference: a children's col
 Draw a NEW picture in exactly that style. The dinosaur (description in Danish): `;
 
 const REGLER = `
+Anatomy must be correct — count the limbs before finishing: a four-legged dinosaur has EXACTLY four legs (two front, two hind); a two-legged dinosaur has EXACTLY two legs and two arms. No extra legs, arms, feet, heads or tails, and every leg must clearly attach to the body.
 Rules: pure black lines on a pure white background. No gray, no shading, no hatching, no solid black fills except the eye. No text, no letters, no border or frame. Landscape format. The whole dinosaur must be inside the picture, placed slightly left of center and low. Keep the TOP RIGHT corner completely empty white (about one third of the width and one fifth of the height) — no clouds, trees or lines there.`;
 
 const args = process.argv.slice(2);

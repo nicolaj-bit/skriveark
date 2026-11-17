@@ -77,7 +77,7 @@
     "beskrivelse": "Edmontosaurus havde en flad mund som en and. Inde i munden havde den hundredvis af tænder, som den knuste planter med.",
     "spoergsmaal": "Hvilke dyr lever i flokke i dag?",
     "billede": "billeder/edmontosaurus.png",
-    "tegning": "stor andenæbs-dinosaur med flad, bred mund, står på fire ben, lille flok i baggrunden",
+    "tegning": "stor andenæbs-dinosaur med flad, bred mund, går på PRÆCIS FIRE ben (to forben, to bagben). INGEN kam på hovedet: hovedet er glat og fladt med et bredt andenæb. Lille flok i baggrunden",
     "pile": {
       "stort": [
         { "nr": 1, "nummer": [0.2, 0.85], "vej": [[0.2, 0.77], [0.2, 0.12]] },
@@ -152,7 +152,7 @@
     "beskrivelse": "Iguanodon havde en spids pig på tommelfingeren. Den kunne gå både på to og på fire ben, og den spiste planter.",
     "spoergsmaal": "Hvad tror du, Iguanodon brugte sin pig til?",
     "billede": "billeder/iguanodon.png",
-    "tegning": "stor planteæder der står på fire ben, tydelig spids pig på tommelfingeren",
+    "tegning": "stor planteæder der står på PRÆCIS FIRE ben (to forben, to bagben) — ingen ekstra arme. Den spidse pig sidder på tommelfingeren på et af de to forben",
     "pile": {
       "stort": [
         { "nr": 1, "nummer": [0.355, 0.82], "vej": [[0.355, 0.74], [0.355, 0.14]] },
@@ -188,7 +188,7 @@
     "beskrivelse": "Kentrosaurus var i familie med Stegosaurus. Den havde plader på ryggen og lange, spidse pigge på halen og skuldrene.",
     "spoergsmaal": "Hvorfor tror du, Kentrosaurus havde pigge?",
     "billede": "billeder/kentrosaurus.png",
-    "tegning": "stegosaur med smalle plader foran på ryggen og lange spidse pigge på halen og skuldrene",
+    "tegning": "stegosaur med smalle plader foran på ryggen og lange spidse pigge på halen og skuldrene, står på PRÆCIS FIRE ben",
     "pile": {
       "stort": [
         { "nr": 1, "nummer": [0.205, 0.88], "vej": [[0.205, 0.8], [0.205, 0.1]] },
@@ -208,7 +208,7 @@
     "beskrivelse": "Lambeosaurus havde en stor kam på hovedet, som var hul indeni. Måske brugte den kammen til at kalde på de andre i flokken.",
     "spoergsmaal": "Hvordan kalder du på dine venner?",
     "billede": "billeder/lambeosaurus.png",
-    "tegning": "andenæbs-dinosaur med stor, hul kam på hovedet formet som en økse",
+    "tegning": "andenæbs-dinosaur med stor, hul kam på hovedet formet som en økse. Står oprejst på PRÆCIS TO kraftige bagben med to korte arme, ligesom en kænguru — kun to ben rører jorden",
     "pile": {
       "stort": [
         { "nr": 1, "nummer": [0.205, 0.88], "vej": [[0.205, 0.8], [0.205, 0.12]] },
@@ -445,7 +445,7 @@
     "beskrivelse": "Yutyrannus var i familie med Tyrannosaurus. Den var dækket af lange, bløde fjer, som måske holdt den varm om vinteren.",
     "spoergsmaal": "Hvilke dyr har fjer i dag?",
     "billede": "billeder/yutyrannus.png",
-    "tegning": "stor tyrannosaur dækket af lange, bløde fjer, gerne i et landskab med lidt sne",
+    "tegning": "stor tyrannosaur dækket af lange, bløde fjer, går på PRÆCIS TO bagben og har to korte arme, gerne i et landskab med lidt sne",
     "pile": {
       "stort": [
         { "nr": 1, "nummer": [0.13, 0.88], "vej": [[0.17, 0.8], [0.42, 0.5]] },
