@@ -125,6 +125,14 @@ body {
   height: auto;
   object-fit: contain;
 }
+.vindue .mangler {
+  align-self: center;
+  border: 0.5mm dashed var(--sort);
+  padding: 6mm 8mm;
+  font-size: 14pt;
+  text-align: center;
+  white-space: pre-line;
+}
 .vindue .titel {
   position: absolute;
   top: 1mm;

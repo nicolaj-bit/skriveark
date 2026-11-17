@@ -33,14 +33,18 @@ if (!poster.length) {
   process.exit(1);
 }
 
+// Mangler en tegning, laves arket alligevel med en markering i vinduet,
+// så resten kan ses og rettes. Scriptet siger tydeligt til.
 const billeder = {};
+const mangler = [];
 for (const p of poster) {
   const fil = path.join(ROD, p.billede);
-  if (!fs.existsSync(fil)) {
-    console.error(`${p.bogstav}: billedet ${p.billede} findes ikke.`);
-    process.exit(1);
+  if (fs.existsSync(fil)) {
+    billeder[p.bogstav] = "data:image/png;base64," + fs.readFileSync(fil).toString("base64");
+  } else {
+    billeder[p.bogstav] = null;
+    mangler.push(`${p.bogstav} (${p.billede})`);
   }
-  billeder[p.bogstav] = "data:image/png;base64," + fs.readFileSync(fil).toString("base64");
 }
 
 (async () => {
@@ -62,6 +66,7 @@ for (const p of poster) {
     fs.mkdirSync(path.dirname(ud), { recursive: true });
     await side.pdf({ path: ud, preferCSSPageSize: true, printBackground: true });
     console.log(`Lavet: ${path.relative(ROD, ud)} (${poster.length} ark)`);
+    if (mangler.length) console.warn(`OBS: ${mangler.length} tegning(er) mangler: ${mangler.join(", ")}`);
   } finally {
     await browser.close();
   }

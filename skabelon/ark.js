@@ -40,6 +40,14 @@ async function maalSkrifttype() {
       xHoejde: c.measureText("x").actualBoundingBoxAscent / 1000,
       versalHoejde: c.measureText("H").actualBoundingBoxAscent / 1000,
       bredde: (t) => c.measureText(t).width / 1000,
+      // Bogstavets sorte del (blæk) i forhold til startpunktet, pr. skriftstørrelse 1.
+      blaek: (t) => {
+        const m = c.measureText(t);
+        return {
+          venstre: m.actualBoundingBoxLeft / 1000, hoejre: m.actualBoundingBoxRight / 1000,
+          op: m.actualBoundingBoxAscent / 1000, ned: m.actualBoundingBoxDescent / 1000,
+        };
+      },
     };
   }
   await document.fonts.load('900 100px "Merriweather"');
@@ -93,11 +101,22 @@ function nytFelt(bredde, k) {
   return { svg, y, L };
 }
 
+// Problemer, der opdages mens arket tegnes. Kommer med i kontrollen.
+const FUND = [];
+
 /* Et sæt linjer med forbilledet (B eller b) skrevet først på linjen. */
 function skrivefelt(bredde, k, forbillede) {
   const { svg, y, L } = nytFelt(bredde, k);
   if (forbillede) {
-    const t = el("text", { x: 0.6, y: tal(y.grund), "font-size": tal(skriftstoerrelse(L, k, forbillede)), fill: "#000" });
+    const fs = skriftstoerrelse(L, k, forbillede);
+    const b = METRIK[400].blaek(forbillede);
+    if (b.ned * fs > k.underlaengde * L + 0.01) {
+      FUND.push(`"${forbillede}" går længere ned end pladsen under grundlinjen — hæv underlaengde i konstanter.json`);
+    }
+    if (b.op * fs > L + k.stregtykkelse + 0.3) {
+      FUND.push(`"${forbillede}" går op over toplinjen`);
+    }
+    const t = el("text", { x: tal(0.6 + b.venstre * fs), y: tal(y.grund), "font-size": tal(fs), fill: "#000" });
     t.textContent = forbillede;
     svg.append(t);
   }
@@ -121,12 +140,13 @@ function kurve(p) {
 
 const PIL = { streg: 0.5, stiplet: "1.6 1.2", spids: 2.6, cirkel: 2.9, tal: 11 };
 
-function tegnPil(lagStreg, lagTal, pil, tilSvg) {
-  const p = pil.vej.map(tilSvg);
-  lagStreg.append(el("path", {
+// En pil uden "vej" er en prik (fx prikken over i og j): kun cirklen med tallet.
+function tegnPil(lagStreg, lagTal, pil, tilSvg, spids) {
+  const p = (pil.vej || []).map(tilSvg);
+  if (p.length >= 2) lagStreg.append(el("path", {
     d: kurve(p), fill: "none", stroke: "#000", "stroke-width": PIL.streg,
     "stroke-dasharray": PIL.stiplet, "stroke-linecap": "round",
-    "marker-end": "url(#pilespids)",
+    "marker-end": `url(#${spids})`,
   }));
   const [cx, cy] = pil.nummer ? tilSvg(pil.nummer) : p[0];
   lagTal.append(el("circle", { cx: tal(cx), cy: tal(cy), r: PIL.cirkel, fill: "#000" }));
@@ -138,7 +158,9 @@ function tegnPil(lagStreg, lagTal, pil, tilSvg) {
   lagTal.append(t);
 }
 
-function tegnGitter(svg, x0, grund, L, bredde) {
+// Koordinatgitter til at placere pile. ox = bogstavets startpunkt.
+// fra/til/dybde er i linjeafstande, så tallene kan skrives direkte i datafilen.
+function tegnGitter(svg, ox, grund, L, fra, til, dybde) {
   const g = el("g", { class: "gitter" });
   const linje = (a, tyk) => g.append(el("line", { ...a, stroke: "#000", "stroke-width": tyk ? 0.15 : 0.05 }));
   const etiket = (x, y, tekst, anker) => {
@@ -146,23 +168,23 @@ function tegnGitter(svg, x0, grund, L, bredde) {
     t.textContent = tekst;
     g.append(t);
   };
-  for (let i = 0; i <= Math.ceil(bredde * 10); i++) {
-    const x = x0 + (i / 10) * L;
-    linje({ x1: tal(x), x2: tal(x), y1: tal(grund - 1.0 * L), y2: tal(grund) }, i % 5 === 0);
-    if (i % 5 === 0) etiket(x, grund + 2, (i / 10).toFixed(1), "middle");
+  const i0 = Math.floor(fra * 10), i1 = Math.ceil(til * 10), j0 = -Math.ceil(dybde * 10);
+  for (let i = i0; i <= i1; i++) {
+    const x = ox + (i / 10) * L;
+    linje({ x1: tal(x), x2: tal(x), y1: tal(grund - L), y2: tal(grund - (j0 / 10) * L) }, i % 5 === 0);
+    if (i % 5 === 0) etiket(x, grund - (j0 / 10) * L + 2, (i / 10).toFixed(1), "middle");
   }
-  for (let j = 0; j <= 10; j++) {
+  for (let j = j0; j <= 10; j++) {
     const y = grund - (j / 10) * L;
-    linje({ x1: tal(x0), x2: tal(x0 + bredde * L), y1: tal(y), y2: tal(y) }, j % 5 === 0);
-    if (j % 5 === 0) etiket(x0 - 1, y, (j / 10).toFixed(1), "end");
+    linje({ x1: tal(ox + (i0 / 10) * L), x2: tal(ox + (i1 / 10) * L), y1: tal(y), y2: tal(y) }, j % 5 === 0);
+    if (j % 5 === 0) etiket(ox + (i0 / 10) * L - 1, y, (j / 10).toFixed(1), "end");
   }
   svg.append(g);
 }
 
 function sporingsbogstaver(bredde, hoejde, post, k, valg) {
-  const L = k.linjeafstand * k.storSkala;
   // Boblen omkring bogstavet: hvid kant på `luft` mm og en sort streg udenom.
-  const luft = 2.0, kantStreg = 1.0;
+  const luft = 2.0, kantStreg = 1.0, halo = luft + kantStreg, mellemrum = 1.5;
 
   const svg = el("svg", {
     class: "bogstaver", width: `${tal(bredde)}mm`, height: `${tal(hoejde)}mm`,
@@ -170,7 +192,7 @@ function sporingsbogstaver(bredde, hoejde, post, k, valg) {
   });
   const defs = el("defs");
   const m = el("marker", {
-    id: "pilespids", viewBox: "0 0 10 10", refX: 6, refY: 5,
+    id: `pilespids-${post.bogstav}`, viewBox: "0 0 10 10", refX: 6, refY: 5,
     markerWidth: PIL.spids, markerHeight: PIL.spids, markerUnits: "userSpaceOnUse", orient: "auto",
   });
   m.append(el("path", { d: "M0,0 L10,5 L0,10 Z", fill: "#000" }));
@@ -179,18 +201,33 @@ function sporingsbogstaver(bredde, hoejde, post, k, valg) {
 
   const stort = post.bogstav.toLocaleUpperCase("da");
   const lille = post.bogstav.toLocaleLowerCase("da");
-  const fs1 = skriftstoerrelse(L, k, stort, 700);
-  const fs2 = skriftstoerrelse(L, k, lille, 700);
-  const b1 = METRIK[700].bredde(stort) * fs1;
-  const b2 = METRIK[700].bredde(lille) * fs2;
-  const mellem = 2 * (luft + kantStreg) + 1.5;
-  const x1 = (bredde - (b1 + mellem + b2)) / 2;
-  // Lodret midt i feltet: fra grundlinjen op til toplinjen er L.
-  const grund = (hoejde + L) / 2;
+
+  // Mål ved fuld størrelse. Er bogstaverne for brede (M, W) eller går de
+  // langt ned (g, j, p, q, y), skaleres begge ned, så de passer i feltet.
+  // Pilene følger med, fordi deres koordinater er i linjeafstande.
+  const maal = (L) => [stort, lille].map((t) => {
+    const fs = skriftstoerrelse(L, k, t, 700);
+    const b = METRIK[700].blaek(t);
+    return { tegn: t, fs, v: b.venstre * fs, h: b.hoejre * fs, op: b.op * fs, ned: b.ned * fs };
+  });
+  const fuld = maal(k.linjeafstand * k.storSkala);
+  const blaekB = fuld.reduce((s, g) => s + g.v + g.h, 0);
+  const blaekH = Math.max(...fuld.map((g) => g.op)) + Math.max(0, ...fuld.map((g) => g.ned));
+  const skala = Math.min(1,
+    (bredde - 4 * halo - mellemrum - 2) / blaekB,
+    (hoejde - 2 * halo - 2) / blaekH);
+  const L = k.linjeafstand * k.storSkala * skala;
+  const [g1, g2] = maal(L);
+
+  const iAlt = 4 * halo + mellemrum + g1.v + g1.h + g2.v + g2.h;
+  const x1 = (bredde - iAlt) / 2 + halo + g1.v;
+  const x2 = x1 + g1.h + 2 * halo + mellemrum + g2.v;
+  const op = Math.max(g1.op, g2.op), ned = Math.max(0, g1.ned, g2.ned);
+  const grund = (hoejde - (op + ned)) / 2 + op;
 
   const glyffer = [
-    { tegn: stort, x: x1, pile: post.pile?.stort || [], b: b1, fs: fs1 },
-    { tegn: lille, x: x1 + b1 + mellem, pile: post.pile?.lille || [], b: b2, fs: fs2 },
+    { ...g1, x: x1, pile: post.pile?.stort || [] },
+    { ...g2, x: x2, pile: post.pile?.lille || [] },
   ];
   const faelles = { y: tal(grund), "font-weight": 700, "stroke-linejoin": "round" };
   // To lag, så boblerne flyder pænt sammen: sort omrids, så hvid kant og bogstav.
@@ -201,14 +238,51 @@ function sporingsbogstaver(bredde, hoejde, post, k, valg) {
       svg.append(t);
     }
   }
+  tjekPile(glyffer, L, luft, post.bogstav);
   const lagStreg = el("g"), lagTal = el("g");
   for (const g of glyffer) {
-    if (valg.gitter) tegnGitter(svg, g.x, grund, L, g.b / L);
+    if (valg.gitter) tegnGitter(svg, g.x, grund, L, -g.v / L, g.h / L, g.ned / L);
     const tilSvg = ([px, py]) => [g.x + px * L, grund - py * L];
-    g.pile.forEach((p) => tegnPil(lagStreg, lagTal, p, tilSvg));
+    g.pile.forEach((p) => tegnPil(lagStreg, lagTal, p, tilSvg, `pilespids-${post.bogstav}`));
   }
   svg.append(lagStreg, lagTal);
   return svg;
+}
+
+/*
+  Tjekker at hvert punkt på pilene ligger inde i bogstavets hvide boble.
+  Bogstavet tegnes på et usynligt lærred i samme størrelse, og punkterne
+  slås op. Så opdages en pil, der stikker ud af bogstavet, før PDF'en laves.
+*/
+function tjekPile(glyffer, L, luft, bogstav) {
+  const OPL = 8; // punkter pr. mm på lærredet
+  for (const g of glyffer) {
+    const pad = luft + 2;
+    const b = Math.ceil((g.v + g.h + 2 * pad) * OPL), h = Math.ceil((g.op + g.ned + 2 * pad) * OPL);
+    const c = document.createElement("canvas");
+    c.width = b; c.height = h;
+    const ctx = c.getContext("2d");
+    ctx.scale(OPL, OPL);
+    const ox = pad + g.v, oy = pad + g.op;
+    ctx.font = `700 ${g.fs}px "Andika"`;
+    ctx.lineJoin = "round";
+    ctx.lineWidth = 2 * luft;
+    ctx.strokeStyle = ctx.fillStyle = "#000";
+    ctx.strokeText(g.tegn, ox, oy);
+    ctx.fillText(g.tegn, ox, oy);
+    const data = ctx.getImageData(0, 0, b, h).data;
+    const inde = ([px, py]) => {
+      const x = Math.round((ox + px * L) * OPL), y = Math.round((oy - py * L) * OPL);
+      if (x < 0 || y < 0 || x >= b || y >= h) return false;
+      return data[(y * b + x) * 4 + 3] > 128;
+    };
+    for (const pil of g.pile) {
+      const punkter = [...(pil.vej || []), ...(pil.nummer ? [pil.nummer] : [])];
+      for (const pkt of punkter) {
+        if (!inde(pkt)) FUND.push(`${bogstav}: pil ${pil.nr} på "${g.tegn}" har punktet [${pkt}] uden for bogstavet`);
+      }
+    }
+  }
 }
 
 /* ---------- Pynt ---------- */
@@ -292,6 +366,20 @@ async function sortHvid(dataUrl) {
 
 /* ---------- Ét ark ---------- */
 
+function formindsk(e, passer, minPt) {
+  let pt = (parseFloat(getComputedStyle(e).fontSize) * 72) / 96;
+  while (!passer() && pt > minPt) {
+    pt -= 0.5;
+    e.style.fontSize = `${pt}pt`;
+  }
+}
+
+function plads(navn) {
+  const v = getComputedStyle(document.documentElement).getPropertyValue(`--${navn}`).trim().split(/\s+/);
+  const [x, y, b, h] = v.map((s) => parseFloat(s));
+  return { x, y, b, h };
+}
+
 // Læser et felts plads fra CSS (--navn: venstre top bredde højde) i mm.
 function feltPlads(navn) {
   const v = getComputedStyle(document.documentElement).getPropertyValue(`--${navn}`).trim().split(/\s+/);
@@ -337,11 +425,17 @@ async function lavArk(post, k, billede, valg) {
 
   // Tegningen og navnet
   const [fv] = feltPlads("vindue");
-  const img = el("img", { alt: post.dyr }, null);
-  img.src = await sortHvid(billede);
-  await img.decode();
+  if (billede) {
+    const img = el("img", { alt: post.dyr }, null);
+    img.src = await sortHvid(billede);
+    await img.decode();
+    fv.append(img);
+  } else {
+    // Tegningen er ikke leveret endnu. Arket laves alligevel, så resten kan ses.
+    fv.append(html("div", "mangler", `Tegning af ${post.dyr} mangler\n(${post.billede})`));
+  }
   const titel = html("div", "titel serif", post.dyr);
-  fv.append(img, titel);
+  fv.append(titel);
 
   // Skrivelinjer: samme felt-funktion til store og små bogstaver
   const [fw, pw] = feltPlads("skrivning");
@@ -353,6 +447,10 @@ async function lavArk(post, k, billede, valg) {
   }
 
   indhold.append(fv, fb, fo, fd, fs, fw);
+
+  // Lange navne: skriften gøres mindre, til de passer. Aldrig under grænsen.
+  formindsk(fo.querySelector(".pille"), () => fo.scrollWidth <= fo.clientWidth + 0.5, 16);
+  formindsk(titel, () => titel.getBoundingClientRect().width / PX_PR_MM <= plads("vindue").b - 8, 22);
   // Buen under navnet tilpasses navnets bredde, når det er sat.
   titel.append(bue((titel.getBoundingClientRect().width / PX_PR_MM) * 0.8));
 }
@@ -367,7 +465,7 @@ async function lavArk(post, k, billede, valg) {
 const UDEN_SVG_INDHOLD = "*:not(svg *)";
 
 function kontroller() {
-  const fejl = [];
+  const fejl = [...FUND];
   const tillad = new Set(["rgb(0, 0, 0)", "rgb(255, 255, 255)", "rgba(0, 0, 0, 0)", "none", "transparent"]);
   const navn = (e) => `<${e.tagName.toLowerCase()} class="${e.getAttribute("class") || ""}">`;
   for (const ark of document.querySelectorAll(".ark")) {
@@ -398,7 +496,8 @@ function kontroller() {
 
     // 3. Tegningen skal ligge inde i sit vindue.
     const v = ark.querySelector(".vindue").getBoundingClientRect();
-    const i = ark.querySelector(".vindue img").getBoundingClientRect();
+    const billede = ark.querySelector(".vindue img");
+    const i = (billede || ark.querySelector(".vindue")).getBoundingClientRect();
     if (i.left < v.left - 0.5 || i.right > v.right + 0.5 || i.top < v.top - 0.5 || i.bottom > v.bottom + 0.5) {
       fejl.push(`${B}: tegningen flyder ud over vinduet`);
     }

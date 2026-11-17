@@ -19,8 +19,9 @@ sort og hvid. Fejler noget, laves der ingen PDF.
 
 ## Tilføj et bogstav
 
-1. Læg tegningen i `billeder/` som PNG (sort streg på hvid; gråt bliver
-   automatisk gjort til rent sort eller hvidt).
+1. Læg tegningen i `billeder/` som PNG. Krav og tegneopskrift står i
+   `billeder/TEGNINGER.md`. Mangler tegningen, laves arket alligevel med en
+   markering i vinduet, og scriptet siger til.
 2. Tilføj en post i `data/bogstaver.json` — kopiér B og ret teksterne.
 3. Kør `node lav.js X --gitter`. Så ligger der et koordinatgitter over det
    store bogstav, og pilenes punkter kan aflæses direkte.
@@ -29,14 +30,19 @@ sort og hvid. Fejler noget, laves der ingen PDF.
 Pilenes koordinater: `(0, 0)` er bogstavets start på grundlinjen, y går opad,
 og 1 er én linjeafstand (grundlinje til toplinje). `vej` er de punkter, pilen
 går igennem — den bliver glat af sig selv. `nummer` er hvor cirklen med
-tallet sidder.
+tallet sidder. En pil uden `vej` er en prik (fx prikken over i og j).
+
+Scriptet tjekker, at alle pilenes punkter ligger inde i bogstavet. Brede
+bogstaver (M, W) og bogstaver med lange haler (g, j, p, q, y) gøres
+automatisk lidt mindre, så de passer i feltet — pilene følger med.
 
 ## Hjælpelinjerne
 
 Alle linjer udledes af `skabelon/konstanter.json`: linjeafstand,
 stregtykkelse og midterlinjens placering. Sporingsbogstavernes størrelse
 regnes ud fra samme tal, så de små bogstaver rammer midterlinjen præcis.
-Ingen linje er placeret i hånden.
+Store bogstaver går præcis fra grundlinjen til toplinjen, små bogstaver
+rammer midterlinjen. Ingen linje er placeret i hånden.
 
 ## Skrifttype
 
