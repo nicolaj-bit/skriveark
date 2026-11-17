@@ -4,38 +4,37 @@
   hjemmeprinter skalerer siden.
 
   Kun to farver: sort streg og hvid baggrund. Ingen gråtoner.
+
+  Alle felter har faste mål og en fast plads, så tegning, tekst og
+  linjer sidder samme sted på hvert ark.
 */
 
-@font-face {
-  font-family: "Andika";
-  src: url("../skrifttype/andika-latin-400-normal.woff2") format("woff2");
-  font-weight: 400;
-}
-@font-face {
-  font-family: "Andika";
-  src: url("../skrifttype/andika-latin-700-normal.woff2") format("woff2");
-  font-weight: 700;
-}
+@font-face { font-family: "Andika"; font-weight: 400;
+  src: url("../skrifttype/andika-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Andika"; font-weight: 700;
+  src: url("../skrifttype/andika-latin-700-normal.woff2") format("woff2"); }
+@font-face { font-family: "Merriweather"; font-weight: 900;
+  src: url("../skrifttype/merriweather-latin-900-normal.woff2") format("woff2"); }
 
 :root {
   --sort: #000;
   --hvid: #fff;
 
-  --side-b: 297mm;
-  --side-h: 210mm;
-
-  /* Rammen ligger 10 mm inde. Kravet er mindst 8 mm. */
+  /* Rammen ligger 10 mm inde fra papirets kant. Kravet er mindst 8 mm. */
   --kant: 10mm;
-  --ramme-streg: 0.6mm;
-  --indvendig: 7mm;
-  --mellemrum: 7mm;
+  --ramme-streg: 0.8mm;
+  --indvendig: 6mm;
 
-  /* Fast vindue til tegningen, så dyret sidder samme sted på hvert ark. */
-  --vindue-b: 124mm;
-  --vindue-h: 88mm;
+  --brod: 16pt;         /* brødtekst, mindst 14 pt */
+  --brod-linje: 1.4;
 
-  --brod: 15pt;      /* brødtekst, mindst 14 pt */
-  --brod-linje: 1.55;
+  /* Felternes plads inde i rammen: venstre, top, bredde, højde. */
+  --bogstaver: 3mm 0mm 104mm 70mm;
+  --overskrift: 0mm 73mm 110mm 14mm;
+  --beskrivelse: 4mm 91mm 106mm 44mm;
+  --spoergsmaal: 0mm 137mm 112mm 39.4mm;
+  --vindue: 114mm 0mm 149.4mm 93mm;
+  --skrivning: 114mm 97mm 149.4mm 79.4mm;
 }
 
 @page { size: 297mm 210mm; margin: 0; }
@@ -52,8 +51,8 @@ body {
 
 .ark {
   position: relative;
-  width: var(--side-b);
-  height: var(--side-h);
+  width: 297mm;
+  height: 210mm;
   overflow: hidden;
   background: var(--hvid);
   break-after: page;
@@ -64,53 +63,59 @@ body {
   position: absolute;
   inset: var(--kant);
   border: var(--ramme-streg) solid var(--sort);
-  border-radius: 5mm;
+  border-radius: 7mm;
   padding: var(--indvendig);
-  display: grid;
-  grid-template-columns: 1fr var(--vindue-b);
-  column-gap: var(--mellemrum);
 }
+.indhold { position: relative; width: 100%; height: 100%; }
 
-.kolonne { display: flex; flex-direction: column; min-height: 0; }
+.felt-plads { position: absolute; }
 
-h1 {
-  font-size: 30pt;
-  font-weight: 700;
-  line-height: 1.1;
-  margin-bottom: 3mm;
-}
-h1 .bogstav { font-size: 36pt; }
+.serif { font-family: "Merriweather", serif; font-weight: 900; }
 
-.etiket {
-  font-size: 14pt;
-  font-weight: 700;
-  line-height: 1.2;
-  margin-top: 4mm;
-  margin-bottom: 1mm;
-}
-
-.sporing {
-  border: 0.35mm solid var(--sort);
-  border-radius: 3mm;
-  flex: 1;
+/* "B er for Brachiosaurus" */
+.overskrift {
   display: flex;
   align-items: center;
-  padding: 2mm 0;
 }
+.overskrift .pille {
+  display: inline-block;
+  border: 0.5mm solid var(--sort);
+  border-radius: 7mm;
+  padding: 1mm 5mm 1.6mm;
+  font-size: 22pt;
+  line-height: 1.15;
+  white-space: nowrap;
+  margin-left: 7mm;
+}
+.overskrift .straaler { position: absolute; left: 0; top: 0; }
 
-.felt { display: block; }
+/* Spørgsmålet i en tankesky */
+.spoergsmaal .sky { position: absolute; inset: 0; }
+.spoergsmaal .inde {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 10mm 0 12mm;
+}
+.spoergsmaal .tegn {
+  position: relative;
+  font-weight: 700;
+  font-size: 44pt;
+  line-height: 1;
+  padding-right: 5mm;
+  margin-right: 5mm;
+  border-right: 0.6mm solid var(--sort);
+}
+.spoergsmaal .tekst { line-height: 1.3; }
+.spoergsmaal .tegn .straaler { position: absolute; left: -6mm; top: -1mm; }
 
+/* Tegningen: fast vindue, dyret skaleres ind uden at blive forvrænget */
 .vindue {
-  width: var(--vindue-b);
-  height: var(--vindue-h);
-  border: 0.35mm solid var(--sort);
-  border-radius: 3mm;
   overflow: hidden;
-  padding: 3mm;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
-  flex: none;
 }
 .vindue img {
   display: block;
@@ -120,14 +125,26 @@ h1 .bogstav { font-size: 36pt; }
   height: auto;
   object-fit: contain;
 }
-
-.beskrivelse { margin-top: 4mm; }
-
-.spoergsmaal {
-  margin-top: auto;
-  font-weight: 700;
-  line-height: 1.3;
-  margin-bottom: 1mm;
+.vindue .titel {
+  position: absolute;
+  top: 1mm;
+  right: 4mm;
+  font-size: 32pt;
+  line-height: 1.1;
+  text-align: center;
+  background: var(--hvid);
 }
+.vindue .titel svg { display: block; margin: 1mm auto 0; }
 
+/* Skrivelinjerne med en lodret skillelinje til venstre */
+.skrivning {
+  border-left: 0.6mm solid var(--sort);
+  padding-left: 6mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.skrivning .gruppe { display: flex; flex-direction: column; }
+
+.felt, .felt-plads > svg { display: block; }
 svg text { font-family: "Andika", sans-serif; }

@@ -40,7 +40,12 @@ Ingen linje er placeret i hånden.
 
 ## Skrifttype
 
-Andika fra SIL — lavet til børn, der lærer at læse, med tydeligt forskellige
+Brødtekst og skrivebogstaver: Andika fra SIL — lavet til børn, der lærer at læse, med tydeligt forskellige
 a, g og q og fuld æ, ø og å. Licens: `skrifttype/OFL.txt`.
+Overskrifter: Merriweather. Licens: `skrifttype/OFL-merriweather.txt`.
 
-`billeder/brachiosaurus.png` er en midlertidig pladsholder.
+## Tegningerne
+
+Tegningen skal være realistisk, men med åbne flader, så den er sjov at
+farvelægge. Hold øverste højre hjørne af billedet tomt — dér står dyrets
+navn. `billeder/brachiosaurus.png` er klippet ud af Saras forlæg.
