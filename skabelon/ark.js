@@ -38,6 +38,7 @@ async function maalSkrifttype() {
     c.font = `${v} 1000px "Andika"`;
     METRIK[v] = {
       xHoejde: c.measureText("x").actualBoundingBoxAscent / 1000,
+      versalHoejde: c.measureText("H").actualBoundingBoxAscent / 1000,
       bredde: (t) => c.measureText(t).width / 1000,
     };
   }
@@ -46,11 +47,18 @@ async function maalSkrifttype() {
 }
 
 /*
-  Skriftstørrelse: vælges så de små bogstavers x-højde lander præcis på
-  midterlinjen. Afledt af konstanterne, ikke sat i hånden.
+  Skriftstørrelse, afledt af konstanterne og skrifttypens egne mål:
+  - store bogstaver: så de går præcis fra grundlinjen op til toplinjen
+  - små bogstaver: så x-højden lander præcis på midterlinjen
+  Skrifttypens store bogstaver er lavere end b, d og l, så de to kan
+  ikke dele én størrelse, hvis begge skal ramme linjerne.
 */
-function skriftstoerrelse(L, k, vaegt = 400) {
-  return (k.midterlinje * L) / METRIK[vaegt].xHoejde;
+function erStort(tegn) {
+  return tegn !== tegn.toLocaleLowerCase("da");
+}
+function skriftstoerrelse(L, k, tegn, vaegt = 400) {
+  const m = METRIK[vaegt];
+  return erStort(tegn) ? L / m.versalHoejde : (k.midterlinje * L) / m.xHoejde;
 }
 
 /* ---------- Hjælpelinjer: ÉN funktion til alle skrivefelter ---------- */
@@ -89,7 +97,7 @@ function nytFelt(bredde, k) {
 function skrivefelt(bredde, k, forbillede) {
   const { svg, y, L } = nytFelt(bredde, k);
   if (forbillede) {
-    const t = el("text", { x: 0.6, y: tal(y.grund), "font-size": tal(skriftstoerrelse(L, k)), fill: "#000" });
+    const t = el("text", { x: 0.6, y: tal(y.grund), "font-size": tal(skriftstoerrelse(L, k, forbillede)), fill: "#000" });
     t.textContent = forbillede;
     svg.append(t);
   }
@@ -153,7 +161,6 @@ function tegnGitter(svg, x0, grund, L, bredde) {
 
 function sporingsbogstaver(bredde, hoejde, post, k, valg) {
   const L = k.linjeafstand * k.storSkala;
-  const fs = skriftstoerrelse(L, k, 700);
   // Boblen omkring bogstavet: hvid kant på `luft` mm og en sort streg udenom.
   const luft = 2.0, kantStreg = 1.0;
 
@@ -172,22 +179,24 @@ function sporingsbogstaver(bredde, hoejde, post, k, valg) {
 
   const stort = post.bogstav.toLocaleUpperCase("da");
   const lille = post.bogstav.toLocaleLowerCase("da");
-  const b1 = METRIK[700].bredde(stort) * fs;
-  const b2 = METRIK[700].bredde(lille) * fs;
+  const fs1 = skriftstoerrelse(L, k, stort, 700);
+  const fs2 = skriftstoerrelse(L, k, lille, 700);
+  const b1 = METRIK[700].bredde(stort) * fs1;
+  const b2 = METRIK[700].bredde(lille) * fs2;
   const mellem = 2 * (luft + kantStreg) + 1.5;
   const x1 = (bredde - (b1 + mellem + b2)) / 2;
   // Lodret midt i feltet: fra grundlinjen op til toplinjen er L.
   const grund = (hoejde + L) / 2;
 
   const glyffer = [
-    { tegn: stort, x: x1, pile: post.pile?.stort || [], b: b1 },
-    { tegn: lille, x: x1 + b1 + mellem, pile: post.pile?.lille || [], b: b2 },
+    { tegn: stort, x: x1, pile: post.pile?.stort || [], b: b1, fs: fs1 },
+    { tegn: lille, x: x1 + b1 + mellem, pile: post.pile?.lille || [], b: b2, fs: fs2 },
   ];
-  const faelles = { y: tal(grund), "font-size": tal(fs), "font-weight": 700, "stroke-linejoin": "round" };
+  const faelles = { y: tal(grund), "font-weight": 700, "stroke-linejoin": "round" };
   // To lag, så boblerne flyder pænt sammen: sort omrids, så hvid kant og bogstav.
   for (const [farve, tyk] of [["#000", 2 * (luft + kantStreg)], ["#fff", 2 * luft]]) {
     for (const g of glyffer) {
-      const t = el("text", { ...faelles, x: tal(g.x), fill: farve, stroke: farve, "stroke-width": tal(tyk) });
+      const t = el("text", { ...faelles, x: tal(g.x), "font-size": tal(g.fs), fill: farve, stroke: farve, "stroke-width": tal(tyk) });
       t.textContent = g.tegn;
       svg.append(t);
     }
