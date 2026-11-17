@@ -1,0 +1,30 @@
+{
+  "_forklaring": "Alle hjælpelinjer på arket udledes af tallene her. Mål er i millimeter. Felterne til store og små bogstaver, svarlinjerne og det store sporingsfelt bruger alle de samme tal.",
+
+  "linjeafstand": 15,
+  "_linjeafstand": "Afstanden fra toplinjen ned til grundlinjen.",
+
+  "midterlinje": 0.64,
+  "_midterlinje": "Hvor højt over grundlinjen den stiplede midterlinje sidder, som andel af linjeafstanden. Sporingsbogstavernes størrelse regnes ud fra den, så de små bogstaver når præcis op til midterlinjen.",
+
+  "underlaengde": 0.42,
+  "_underlaengde": "Plads under grundlinjen til g, j, p og y, som andel af linjeafstanden.",
+
+  "stregtykkelse": 0.3,
+  "_stregtykkelse": "Tykkelsen på alle hjælpelinjer.",
+
+  "stiplet": [2.2, 1.6],
+  "_stiplet": "Midterlinjens streg og mellemrum.",
+
+  "storSkala": 3.4,
+  "_storSkala": "Det store sporingsfelt øverst er de samme linjer, bare så mange gange større. Stregtykkelsen skaleres ikke.",
+
+  "sporAndel": 0.62,
+  "_sporAndel": "Hvor stor en del af et øvefelt der er fyldt med stiplede bogstaver. Resten er tomt til at skrive selv.",
+
+  "svarlinjer": 2,
+  "_svarlinjer": "Antal skrivelinjer under spørgsmålet.",
+
+  "bogstavAfstand": 0.32,
+  "_bogstavAfstand": "Luft mellem de stiplede bogstaver, som andel af linjeafstanden."
+}

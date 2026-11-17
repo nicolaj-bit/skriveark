@@ -1,0 +1,12 @@
+{
+  "name": "skriveark",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Øve-ark til børn: ét ark pr. bogstav, lavet ud fra en datafil.",
+  "scripts": {
+    "ark": "node lav.js"
+  },
+  "dependencies": {
+    "playwright": "1.63.0"
+  }
+}
